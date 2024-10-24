@@ -5,14 +5,14 @@ export default async function Page() {
 
   const headers = apiKey ? new Headers({ 'X-API-KEY': apiKey }) : undefined;
 
-  let response = await fetch(
+  const response = await fetch(
     'https://api.xyi203.dev/transaction/list?start_at=2024-10-01&end_at=2024-11-01',
     {
       headers: headers,
     }
   );
-  let result = await response.json();
-  let transactions = result.data;
+  const result = await response.json();
+  const transactions = result.data;
 
   return (
     <div className="container">
