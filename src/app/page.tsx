@@ -1,4 +1,12 @@
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@/components/ui/table';
+import {Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow} from '@/components/ui/table';
+
+
+interface Transaction {
+    id: number;
+    title: string;
+    amount: number;
+    date: string;
+}
 
 export default async function Page() {
   const apiKey = process.env.NEXT_PUBLIC_API_KEY;
@@ -15,26 +23,24 @@ export default async function Page() {
   const transactions = result.data;
 
   return (
-    <div className="container">
-      <h1>Transaction List</h1>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Title</TableCell>
-            <TableCell>Amount</TableCell>
-            <TableCell>Date</TableCell>
+      <Table className="content-center">
+        <TableCaption>A list of Transaction.</TableCaption>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Title</TableHead>
+          <TableHead>Amount</TableHead>
+          <TableHead>Date</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {transactions.map((transaction: Transaction) => (
+          <TableRow key={transaction.id}>
+            <TableCell>{transaction.title}</TableCell>
+            <TableCell>{transaction.amount}</TableCell>
+            <TableCell>{transaction.date}</TableCell>
           </TableRow>
-        </TableHead>
-        <TableBody>
-          {transactions.map((transaction: any) => (
-            <TableRow key={transaction.id}>
-              <TableCell>{transaction.title}</TableCell>
-              <TableCell>{transaction.amount}</TableCell>
-              <TableCell>{transaction.date}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
+        ))}
+      </TableBody>
       </Table>
-    </div>
   );
 }
