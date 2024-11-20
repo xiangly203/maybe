@@ -1,9 +1,10 @@
-// import {auth} from "@/auth";
-// import {NextRequest} from "next/server";
-//
-// export async function handler(request: NextRequest) {
-//     const session = await auth()
-//     return await fetch("", {
-//         headers: { "Authorization":  `Bearer ${session?.accessToken}` }
-//     })
-// }
+import {NextRequest} from "next/server";
+import { cookies } from "next/headers";
+
+export async function handler(request: NextRequest) {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token");
+    return await fetch("", {
+        headers: { "Authorization":  `Bearer ${token}` }
+    })
+}
