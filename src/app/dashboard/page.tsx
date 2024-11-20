@@ -1,10 +1,10 @@
 import OutcomeTable from "@/components/page/table";
-import {DatePickerForm} from "@/components/page/dashboard";
+import { DateRangePickerForm} from "@/components/page/dashboard";
 
 export default function Page() {
     return (
         <div className="flex  items-center justify-center px-4">
-            <DatePickerForm/>
+            <DateRangePickerForm/>
             {/* <OutcomeTable /> */}
         </div>
     )
