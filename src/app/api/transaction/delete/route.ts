@@ -1,7 +1,7 @@
 import {NextRequest} from "next/server";
 import { cookies } from "next/headers";
 
-export async function handler(request: NextRequest) {
+export async function POST(request: NextRequest) {
     const cookieStore = await cookies();
     const token = cookieStore.get("token");
     return await fetch("", {
