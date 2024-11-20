@@ -17,20 +17,37 @@ interface OutcomeTableProps {
 
 export default function OutcomeTable({ start_at, end_at }: OutcomeTableProps) {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchTransactions = async () => {
-            const response = await fetch(`/api/transaction/list`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ start_at, end_at }),
-            });
-            const res = await response.json();
-            setTransactions(res.data);
+            setIsLoading(true);
+            try {
+                const response = await fetch(`/api/transaction/list`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ start_at, end_at }),
+                });
+                const res = await response.json();
+                setTransactions(res.data || []);
+            } catch (error) {
+                console.error('Failed to fetch transactions:', error);
+                setTransactions([]);
+            } finally {
+                setIsLoading(false);
+            }
         };
 
         fetchTransactions();
     }, [start_at, end_at]);
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+
+    if (!transactions.length) {
+        return <div>No transactions found.</div>;
+    }
 
     return (
         <Table className="content-center">
@@ -43,7 +60,7 @@ export default function OutcomeTable({ start_at, end_at }: OutcomeTableProps) {
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {transactions.map((transaction: Transaction) => (
+                 {transactions.map((transaction: Transaction) => (
                     <TableRow key={transaction.id}>
                         <TableCell>{transaction.title}</TableCell>
                         <TableCell>{transaction.amount}</TableCell>

@@ -47,7 +47,10 @@ export function DateRangePickerForm() {
     },
   })
 
-  const [dateRange, setDateRange] = useState<{ from: Date | null; to: Date | null } | null>(null)
+  const [dateRange, setDateRange] = React.useState<DateRange | undefined>({
+    from: new Date(2022, 0, 20),
+    to: addDays(new Date(2022, 0, 20), 20),
+  })
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     setDateRange(data.dateRange)
